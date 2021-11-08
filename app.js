@@ -4,6 +4,7 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const resetBtn = document.getElementById("jsReset");
 const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "#2c2c2c";
@@ -86,8 +87,9 @@ function handleCanvasClick() {
   }
 }
 
-function resetBtnClick(event) {
-  window.location.reload();
+function resetBtnClick() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // window.location.reload();
 }
 
 function handleRightClick(event) {
@@ -130,6 +132,10 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+if (resetBtn) {
+  resetBtn.addEventListener("click", resetBtnClick);
 }
 
 if (saveBtn) {
