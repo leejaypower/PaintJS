@@ -4,12 +4,17 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "#2c2c2c";
 
 canvas.width = 800;
 canvas.height = 500;
 // css에서 준 크기와는 별도로 pixel을 다룰 수 있는 width와 height를 지정해줘야 한다!!
+
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+// fill을 하지 않고 paint만 사용하여 그림을 그리고 저장했을 때 배경색이 투명이 되는 것을 방지
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -85,12 +90,30 @@ function resetBtnClick(event) {
   window.location.reload();
 }
 
+function handleRightClick(event) {
+  event.preventDefault(); // 마우스 우클릭 막기
+}
+
+function handleSaveClick(event) {
+  const image = canvas.toDataURL("image/png");
+  // toDataURL 메소드는 지정된 포맷의 이미지 표현을 포함한 data URL을 반환한다.
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "paintJS-export";
+  // a태그의 download는 브라우저 이동 대신 주어진 url을 지정된 이름으로 다운로드하는 것이다.
+  // link는 이미지 data URL를 갖고 있다.
+  //console.log(link);
+  link.click();
+  // 보이지 않는 link를 클릭하여 다운로드하게끔 한다.
+}
+
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("contextmenu", handleRightClick);
 }
 
 // console.log(Array.from(colors));
@@ -107,4 +130,8 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+if (saveBtn) {
+  saveBtn.addEventListener("click", handleSaveClick);
 }
