@@ -1,6 +1,7 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
 // html의 요소인 canvas는 context를 갖는다. 요소안의 픽셀에 접근할 수 있다.
+const colors = document.getElementsByClassName("jsColor");
 
 canvas.width = 800;
 canvas.height = 500;
@@ -34,8 +35,17 @@ function onMouseMove(event) {
   }
 }
 
+/*
 function onMouseDown(event) {
   painting = true;
+}
+*/
+
+function handleColorClick(event) {
+  // console.log(event.target.style);
+  const bgcolor = event.target.style.backgroundColor;
+  // console.log(bgcolor)
+  ctx.strokeStyle = bgcolor;
 }
 
 if (canvas) {
@@ -44,3 +54,11 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
 }
+
+// console.log(Array.from(colors));
+// colors는 HTMLCollection
+// array.from 메소드는 object로부터 array를 만든다.
+
+Array.from(colors).forEach((color) =>
+  color.addEventListener("click", handleColorClick)
+);
