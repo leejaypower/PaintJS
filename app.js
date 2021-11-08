@@ -28,9 +28,9 @@ function stopPainting() {
   painting = false;
 }
 
-function startPainting() {
-  if (!filling) {
-    // paint 모드일 경우에만
+function startPainting(event) {
+  if (!filling && event.which === 1) {
+    // paint 모드이고, 좌클릭을 했을 경우만
     painting = true;
   }
 }
